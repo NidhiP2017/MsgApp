@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MsgApp.Models;
 
@@ -11,9 +12,11 @@ using MsgApp.Models;
 namespace MsgApp.Migrations
 {
     [DbContext(typeof(MsgAppDbContext))]
-    partial class MsgAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240718034046_Add_Message_Table")]
+    partial class Add_Message_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

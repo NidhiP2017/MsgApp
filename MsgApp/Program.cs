@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MsgApp.Interfaces;
@@ -45,9 +46,9 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = false
     };
 });
+
 builder.Services.AddDbContext<MsgAppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MsgAppConnectionString")));
-
 builder.Services.AddIdentity<ChatUsers, IdentityRole>()
                 .AddEntityFrameworkStores<MsgAppDbContext>()
                 .AddDefaultTokenProviders();
