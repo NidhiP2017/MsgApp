@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MsgApp.Models;
 
@@ -11,9 +12,11 @@ using MsgApp.Models;
 namespace MsgApp.Migrations
 {
     [DbContext(typeof(MsgAppDbContext))]
-    partial class MsgAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240726113047_addingGroupMembers")]
+    partial class addingGroupMembers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,30 +231,33 @@ namespace MsgApp.Migrations
 
             modelBuilder.Entity("MsgApp.Models.Group", b =>
                 {
-                    b.Property<int>("GroupId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GroupId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("GroupName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("GroupId");
+                    b.HasKey("Id");
 
                     b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("MsgApp.Models.GroupMember", b =>
                 {
-                    b.Property<int>("MemberId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MemberId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GrpId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IncludePreviousChat")
@@ -264,7 +270,7 @@ namespace MsgApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("MemberId");
+                    b.HasKey("Id");
 
                     b.HasIndex("GroupId");
 
@@ -300,8 +306,6 @@ namespace MsgApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("MessageId");
-
-                    b.HasIndex("GroupId");
 
                     b.ToTable("Messages");
                 });
@@ -360,7 +364,7 @@ namespace MsgApp.Migrations
             modelBuilder.Entity("MsgApp.Models.GroupMember", b =>
                 {
                     b.HasOne("MsgApp.Models.Group", "Group")
-                        .WithMany("GroupMembers")
+                        .WithMany()
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -374,20 +378,6 @@ namespace MsgApp.Migrations
                     b.Navigation("Group");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MsgApp.Models.Messages", b =>
-                {
-                    b.HasOne("MsgApp.Models.Group", null)
-                        .WithMany("Messages")
-                        .HasForeignKey("GroupId");
-                });
-
-            modelBuilder.Entity("MsgApp.Models.Group", b =>
-                {
-                    b.Navigation("GroupMembers");
-
-                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
 
 namespace MsgApp.Models
 {
@@ -10,19 +9,23 @@ namespace MsgApp.Models
         public Guid MessageId { get; set; }
         public Guid? ParentMessageId { get; set; }
 
-        [ForeignKey(nameof(Groups))]
+        //[ForeignKey(nameof(Groups))]
         public int? GroupId { get; set; }
         public virtual Group Groups { get; set; }
-        [ForeignKey("SenderUser")]
+
+        //public virtual ChatUsers ChatUsers {  get; set; }
+
+        //[ForeignKey("SenderUser")]
         public Guid SenderId { get; set; }
-        [ForeignKey("RecieverUser")]
+
+        //[ForeignKey("RecieverUser")]
         public Guid ReceiverId { get; set; }
 
         [Required]
         [StringLength(1000, MinimumLength = 2)]
         public string Content { get; set; }
         public DateTime Timestamp { get; set; }
-        public virtual ChatUsers RecieverUser { get; set; }
-        public virtual ChatUsers SenderUser { get; set; }
+        //public virtual ChatUsers RecieverUser { get; set; }
+        //public virtual ChatUsers SenderUser { get; set; }
     }
 }

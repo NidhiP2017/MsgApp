@@ -9,6 +9,8 @@ namespace MsgApp.Models
         public MsgAppDbContext(DbContextOptions options) : base(options) { }
         public DbSet<ChatUsers> ChatUsers { get; set; }
         public DbSet<Messages> Messages { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<GroupMember> GroupMembers { get; set; }    
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

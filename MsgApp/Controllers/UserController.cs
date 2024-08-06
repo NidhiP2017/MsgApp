@@ -27,6 +27,27 @@ namespace MsgApp.Controllers
             _signInManager = signInManager;
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("getAllUsers")]
+        public async Task<IActionResult> GetUsersList()
+        {
+            if (ModelState.IsValid)
+            {
+                string currentUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                if (currentUserId != null)
+                {
+                    var userList = await _userService.GetUsersList(currentUserId);
+                    return Ok(userList);
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+            }
+            return BadRequest();
+        }
+
         [HttpPost]
         [Route("Register")]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDTO registerUser)

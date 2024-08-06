@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MsgApp.DTO;
 using MsgApp.Interfaces;
 using MsgApp.Models;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -28,6 +30,20 @@ namespace MsgApp.Services
             _signInManager = signInManager;
             _configuration = configuration;
             _tokenService = tokenService;
+        }
+
+        public async Task<IActionResult> GetUsersList(string currentUserId)
+        {
+            var userList = await _dbContext.Users
+            .Where(u => u.Id != currentUserId)
+            .Select(u => new
+            {
+                name = u.UserName,
+                email = u.Email,
+
+            })
+            .ToListAsync();
+            return new OkObjectResult(new { users = userList });
         }
         public async Task<RegisteredUserResponseDTO> RegisterUser(RegisterUserDTO registerUser)
         {

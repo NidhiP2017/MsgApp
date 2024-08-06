@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MsgApp.Models;
 
@@ -11,9 +12,11 @@ using MsgApp.Models;
 namespace MsgApp.Migrations
 {
     [DbContext(typeof(MsgAppDbContext))]
-    partial class MsgAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240731102740_Added_GroupMembers_Table")]
+    partial class Added_GroupMembers_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,11 +248,11 @@ namespace MsgApp.Migrations
 
             modelBuilder.Entity("MsgApp.Models.GroupMember", b =>
                 {
-                    b.Property<int>("MemberId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MemberId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
@@ -264,7 +267,7 @@ namespace MsgApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("MemberId");
+                    b.HasKey("Id");
 
                     b.HasIndex("GroupId");
 

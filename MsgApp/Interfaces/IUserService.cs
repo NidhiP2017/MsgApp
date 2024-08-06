@@ -6,6 +6,7 @@ namespace MsgApp.Interfaces
     public interface IUserService
     {
         Task<RegisteredUserResponseDTO> RegisterUser(RegisterUserDTO registerUser);
+        Task<IActionResult> GetUsersList(string currentUserId);
         Task<string> LoginUser(LoginUserDTO userDTO);
         public string GetToken();
         Task<IActionResult> UpdateStatus(string Id, string status);

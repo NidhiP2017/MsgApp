@@ -1,8 +1,10 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MsgApp.Automapper;
 using MsgApp.Interfaces;
 using MsgApp.Models;
 using MsgApp.Services;
@@ -55,6 +57,16 @@ builder.Services.AddIdentity<ChatUsers, IdentityRole>()
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ITenantContext, TenantContext>();
+builder.Services.AddScoped<IRepositoryService, RepositoryService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IGroupService, GroupService>();
+
+var mapperConfiguration = new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new AutoMapperProfileConfiguration());
+});
+IMapper mapper = mapperConfiguration.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 using var scope = app.Services.CreateScope();
